@@ -87,6 +87,10 @@ docker run \
 mikenye/striparr
 ```
 
+*Important:*
+* The volume mounts to the media from Sonarr and Radarr containers have also been presented to Striparr with exactly the same paths
+* The environment variables PUID and PGID set on the Sonarr and Radarr container have also been set on Striparr with exactly the same values 
+
 A more elegant solution would be to have a `docker-compose.yml` file containing Sonarr, Radarr, their supporting containers, and Striparr all defined within the `docker-compose` file.
 
 ## Sonarr/Radarr Configuration
@@ -102,7 +106,7 @@ In both applications, the process to do this is as follows:
     * Ensure "On Download" is enabled (The others don't matter, you can leave them enabled or disable them. Striparr ignores them.)
     * Set "URL" to "http://striparr:40000" (change this URL to suit your environment if required)
     * Hit "Test". In the container log, it will log that it has received a test webhook (see below for example). Sonarr/Radar should show the test was successful.
-        ```
+```
 [listener] [2019-10-15 03:54:04,337: INFO] [172.16.29.3] [Sonarr/3.0.3.644] Received a Sonarr style webhook test
 [listener] [2019-10-15 03:54:55,475: INFO] [172.16.29.4] [Radarr/0.2.0.1358] Received a Radarr style webhook test
 ```
