@@ -1,6 +1,6 @@
 # docker-striparr
 
-Strips "annoyance" metadata from items imported by Sonarr and Radarr. Triggered via Webhook.
+Strips "annoyance" metadata from items imported by [Sonarr](https://sonarr.tv) and [Radarr](https://radarr.video). Triggered via Webhook.
 
 This utility will strip certain metadata tags from media container files, to allow media management systems (such as Plex) to name the files based on metadata collected from its media scanners.
 
