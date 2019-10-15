@@ -80,7 +80,6 @@ docker run \
 --name striparr \
 --network=arr \
 --restart=always \
--e TZ="Australia/Perth" \
 -e PUID=500 \
 -e PGID=1000 \
 -v /path/to/tv:/path/to/tv \
