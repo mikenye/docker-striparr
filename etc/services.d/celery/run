@@ -1,0 +1,15 @@
+#!/usr/bin/with-contenv sh
+
+set -eo pipefail
+
+cd / || exit 1
+
+s6-setuidgid striparr /usr/bin/celery \
+  worker \
+  -A \
+  striparr.celery \
+  --no-color \
+  --loglevel=warning \
+  --concurrency 1 \
+  2>&1 | awk '{print "[worker] " $0}'
+
