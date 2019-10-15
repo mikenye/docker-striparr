@@ -1,4 +1,4 @@
-# docker-striparr
+# striparr
 
 Strips "annoyance" metadata from items imported by [Sonarr](https://sonarr.tv) and [Radarr](https://radarr.video). Triggered via Webhook.
 
