@@ -103,8 +103,8 @@ In both applications, the process to do this is as follows:
 1. In the "Add Notification" dialog that appears, scroll down and choose "Webhook"
 1. Fill in the dialog as follows:
     * Set "Name" to "Striparr"
-    * Ensure "On Download" is enabled (The others don't matter, you can leave them enabled or disable them. Striparr ignores them.)
-    * Set "URL" to "http://striparr:40000" (change this URL to suit your environment if required)
+    * For Sonarr v2, ensure "On Download" is enabled (The others don't matter, you can leave them enabled or disable them. Striparr ignores them.)
+    * For Sonarr v3, ensure "On Upgrade" is enabled (The others don't matter, you can leave them enabled or disable them.     * Set "URL" to "http://striparr:40000" (change this URL to suit your environment if required)
     * Hit "Test". In the container log, it will log that it has received a test webhook (see below for example). Sonarr/Radar should show the test was successful. Then hit "Save".
 
 The container logs showing that Striparr has received the test webooks will look as follows:
