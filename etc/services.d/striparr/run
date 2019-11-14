@@ -5,8 +5,8 @@ set -eo pipefail
 cd / || exit 1
 
 s6-setuidgid striparr /usr/bin/gunicorn \
-  -b \
   --timeout 600 \
+  -b \
   0.0.0.0:40000 \
   striparr:app \
   2>&1 | awk '{print "[listener] " $0}'
