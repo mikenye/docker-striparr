@@ -1,20 +1,21 @@
 #!/usr/bin/env python
 
+__version__ = "2020-03-22"
+
 import sys
 import os
-import json
-from pprint import pprint
-from flask import Flask, request, abort, has_request_context
-from flask.logging import default_handler
-from celery import Celery
-from celery.utils.log import get_task_logger
-import logging
-import time
 import datetime
+import logging
+# import time
 import subprocess
 import re
 import shutil
-
+# import json
+# from pprint import pprint
+from flask import Flask, request, abort
+# from flask.logging import default_handler
+from celery import Celery
+from celery.utils.log import get_task_logger
 
 # Set up Flask App & Celery config
 app = Flask(__name__)
@@ -41,6 +42,8 @@ class App_Logger:
         logdata['message'] = message
         print('[%(asctime)s: %(levelname)s] [%(remote_addr)s] [%(user_agent)s] %(message)s' % logdata)
         sys.stdout.flush()
+
+
 app_logger = App_Logger()
 
 
@@ -69,20 +72,20 @@ def worker(filetostrip):
     # perform ffmpeg metadata scan
     celery_logger.info('Checking: "%s"' % (filetostrip))
     metadata_scan = subprocess.run(
-        ["ffmpeg", 
+        ["ffmpeg",
          "-i",
-         filetostrip, 
-         "-f", 
-         "ffmetadata", 
-         "-"], 
-        stdout=subprocess.PIPE, 
-        stderr=subprocess.PIPE, 
+         filetostrip,
+         "-f",
+         "ffmetadata",
+         "-"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         check=True)
 
     # make sure ffmpeg scan worked ok
     if metadata_scan.returncode != 0:
         celery_logger.error('ffmpeg metadata scan failed: "%s"' % (metadata_scan.stderr))
-    
+
     else:
 
         # check output for metadata we want to remove
@@ -111,17 +114,17 @@ def worker(filetostrip):
 
             else:
 
-                #prepare command line
+                # prepare command line
                 ffmpeg_strip_command = [
-                     "ffmpeg",              # ffmpeg executable
-                     "-i",                  # input file
-                     filetostrip,           # the input file
+                    "ffmpeg",              # ffmpeg executable
+                    "-i",                  # input file
+                    filetostrip,           # the input file
                     ]
 
                 # add banned metadata, setting each key to blank (eg: key= )
                 for metadata_key in banned_metadata_keys:
                     ffmpeg_strip_command.append("-metadata")
-                    ffmpeg_strip_command.append("%s=" %(metadata_key))
+                    ffmpeg_strip_command.append("%s=" % (metadata_key))
 
                 # add remaining command line bits
                 ffmpeg_strip_command += [
@@ -133,10 +136,11 @@ def worker(filetostrip):
 
                 # run the command to create the stripped output file
                 metadata_strip = subprocess.run(
-                     ffmpeg_strip_command,
-                     stdout=subprocess.PIPE, 
-                     stderr=subprocess.PIPE, 
-                     check=True)
+                    ffmpeg_strip_command,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    check=True
+                    )
 
                 # check output
                 if metadata_strip.returncode != 0:
@@ -163,24 +167,21 @@ def listener():
         if request.is_json:
 
             # show the request JSON - useful for debugging
-            #pprint(request.json)
+            # pprint(request.json)
 
             # If we've received a webhook with an eventType, then it has come from Sonarr/Radarr so process it
             if 'eventType' in request.json.keys():
-
 
                 # Log test webhooks for ease of use/troubleshooting
                 if request.json['eventType'].lower() == 'test':
                     if 'episodes' in request.json.keys():
                         app_logger.info('Received a Sonarr style webhook test')
-                        
+
                     if 'movie' in request.json.keys():
                         app_logger.info('Received a Radarr style webhook test')
 
-
                 # We want to take action on "download" webhooks as this means a file has been imported
                 elif request.json['eventType'].lower() == 'download':
-
 
                     # Process Sonarr style "download" webhook
                     if ('episodeFile' in request.json.keys()) and ('series' in request.json.keys()):
@@ -204,13 +205,12 @@ def listener():
                                 app_logger.error('Could not access file: "%s", skipping' % (path_to_imported_file))
 
                         else:
-                            app_logger.error('Received invalid JSON data from Sonarr')   
-
+                            app_logger.error('Received invalid JSON data from Sonarr')
 
                     # Process Radarr style "download" webhook
                     elif ('movieFile' in request.json.keys()) and ('movie' in request.json.keys()):
                         if ('relativePath' in request.json['movieFile'].keys()) and ('folderPath' in request.json['movie'].keys()):
-                        
+
                             # build path
                             path_to_imported_file = os.path.join(
                                 request.json['movie']['folderPath'],
@@ -229,8 +229,7 @@ def listener():
                                 app_logger.error('Could not access file: "%s", skipping' % (path_to_imported_file))
 
                         else:
-                            app_logger.error('Received invalid JSON data from Radarr')                            
-
+                            app_logger.error('Received invalid JSON data from Radarr')
 
                 # We received a webhook with unsupported type
                 else:
@@ -254,4 +253,3 @@ def listener():
 
 if __name__ == '__main__':
     app.run()
-
