@@ -1,4 +1,4 @@
-# striparr
+# mikenye/striparr
 
 Strips "annoyance" metadata from items imported by [Sonarr](https://sonarr.tv) and [Radarr](https://radarr.video). Triggered via Webhook.
 
@@ -7,6 +7,7 @@ This utility will strip certain metadata tags from media container files, to all
 This prevents, for example, a movie file being named such as `Title.year.quality.releasegroup`.
 
 The metadata fields that Striparr will remove are:
+
 * `title` field on the file
 * `comment` field on the file
 
@@ -44,7 +45,7 @@ In order to strip metadata, your media volumes need to be mounted in exactly the
 
 For example, if you run your Sonarr and Radarr containers like this:
 
-```
+```shell
 docker run \
 -d \
 --name sonarr \
@@ -74,7 +75,7 @@ linuxserver/radarr
 
 ...then you would run your Striparr container like this:
 
-```
+```shell
 docker run \
 -d \
 --name striparr \
@@ -88,8 +89,9 @@ mikenye/striparr
 ```
 
 *Important:*
+
 * The volume mounts to the media from Sonarr and Radarr containers have also been presented to Striparr with exactly the same paths
-* The environment variables PUID and PGID set on the Sonarr and Radarr container have also been set on Striparr with exactly the same values 
+* The environment variables PUID and PGID set on the Sonarr and Radarr container have also been set on Striparr with exactly the same values
 
 A more elegant solution would be to have a `docker-compose.yml` file containing Sonarr, Radarr, their supporting containers, and Striparr all defined within the `docker-compose` file.
 
@@ -98,17 +100,20 @@ A more elegant solution would be to have a `docker-compose.yml` file containing 
 In order for Sonarr and/or Radarr to notify Striparr when files are downloaded (so Striparr can process them), you'll need to add a Webhook.
 
 In both applications, the process to do this is as follows:
+
 1. Go to "Settings" > "Connect"
 1. Press the "+" button to add a new notification
 1. In the "Add Notification" dialog that appears, scroll down and choose "Webhook"
 1. Fill in the dialog as follows:
-    * Set "Name" to "Striparr"
+    * Set "Name" to `Striparr`
     * For Sonarr v2, ensure "On Download" is enabled (The others don't matter, you can leave them enabled or disable them. Striparr ignores them.)
-    * For Sonarr v3, ensure "On Upgrade" is enabled (The others don't matter, you can leave them enabled or disable them.     * Set "URL" to "http://striparr:40000" (change this URL to suit your environment if required)
+    * For Sonarr v3, ensure "On Upgrade" is enabled (The others don't matter, you can leave them enabled or disable them.
+    * Set "URL" to `http://striparr:40000` (change this URL to suit your environment if required)
     * Hit "Test". In the container log, it will log that it has received a test webhook (see below for example). Sonarr/Radar should show the test was successful. Then hit "Save".
 
 The container logs showing that Striparr has received the test webooks will look as follows:
-```
+
+```text
 [listener] [2019-10-15 03:54:04,337: INFO] [172.16.29.3] [Sonarr/3.0.3.644] Received a Sonarr style webhook test
 [listener] [2019-10-15 03:54:55,475: INFO] [172.16.29.4] [Radarr/0.2.0.1358] Received a Radarr style webhook test
 ```
@@ -135,28 +140,28 @@ If the Striparr container is running on the same docker network as Sonarr/Radarr
 
 Striparr logs to the container's `stdout`, and can be viewed with `docker logs [-f] container`.
 
-It is recommended that you set up log rotation for your container logs, which is outlined here: https://success.docker.com/article/how-to-setup-log-rotation-post-installation
+It is recommended that you set up log rotation for your container logs, which is outlined here: <https://success.docker.com/article/how-to-setup-log-rotation-post-installation>
 
 ## Manually Processing Files
 
 If you have existing files that you wish to process, you can use the `manually_process.py` script included within the container. When running this script, the syntax is:
 
-```
+```shell
 docker exec -it striparr /manually_process.py /path/to/media/file
 ```
 
 This script sends a webhook to Striparr (in the same way that Sonarr/Radarr would), thus you need to specify the *full path* to your media in the context of the container's file system. Relative paths won't work.
 
-The easiest way to do this is to get a shell within the container (ie: `docker exec -it striparr sh`) and then use tab completion. 
+The easiest way to do this is to get a shell within the container (ie: `docker exec -it striparr sh`) and then use tab completion.
 
 Example:
 
-```
+```text
 docker-host$ docker exec -it striparr sh
 
 <now on a shell within the container>
 
-/ # /manually_process.py /path/to/movie/file.mkv 
+/ # /manually_process.py /path/to/movie/file.mkv
 Request sent to striparr - see striparr log for details
 
 / # exit
