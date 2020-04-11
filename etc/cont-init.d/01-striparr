@@ -14,7 +14,7 @@ else
   echo $TZ > /etc/timezone
 fi
 
-addgroup -g ${PGID} striparr || exit 0
+addgroup -g ${PGID} striparr || true
 
 STRIPARR_GROUP=$(grep ":$PGID:" /etc/group | cut -d ":" -f 1)
 
