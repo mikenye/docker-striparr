@@ -1,4 +1,5 @@
-#!/usr/bin/with-contenv sh
+#!/usr/bin/with-contenv bash
+#shellcheck shell=bash
 
 set -eo pipefail
 
@@ -12,4 +13,3 @@ s6-setuidgid striparr /usr/bin/celery \
   --loglevel=warning \
   --concurrency 1 \
   2>&1 | awk '{print "[worker] " $0}'
-

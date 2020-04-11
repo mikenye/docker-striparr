@@ -1,4 +1,5 @@
-#!/usr/bin/with-contenv sh
+#!/usr/bin/with-contenv bash
+#shellcheck shell=bash
 
 set -eo pipefail
 
@@ -6,7 +7,3 @@ cd / || exit 1
 
 /usr/bin/redis-server \
   > /dev/null 2>&1
-  #2>&1 | awk '{print "[redis] " $0}'
-  #> /dev/null 2>&1
-  #
-
