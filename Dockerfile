@@ -2,12 +2,13 @@ FROM alpine:3
 
 RUN set -x && \
     apk add --no-cache \
-      python3 \
-      py3-pip \
-      py3-gunicorn \
-      redis \
+      bash \
       ffmpeg \
       gnupg \
+      py3-gunicorn \
+      py3-pip \
+      python3 \
+      redis \
       && \
     ln -s /usr/bin/python3 /usr/bin/python && \
     ln -s /usr/bin/pip3 /usr/bin/pip && \
@@ -15,8 +16,8 @@ RUN set -x && \
       pip \
       && \
     pip install \
-      flask \
       celery \
+      flask \
       redis \
       requests \
       && \
