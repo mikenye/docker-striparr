@@ -3,6 +3,7 @@ FROM alpine:3
 RUN set -x && \
     apk add --no-cache \
       bash \
+      file \
       ffmpeg \
       gnupg \
       py3-gunicorn \
@@ -23,6 +24,7 @@ RUN set -x && \
       && \
     wget -q -O - https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
     apk del --no-cache \
+      file \
       gnupg \
       py3-pip \
       && \
