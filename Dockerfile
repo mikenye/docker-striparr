@@ -20,7 +20,6 @@ RUN set -x && \
       celery \
       flask \
       redis \
-      requests \
       && \
     wget -q -O - https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
     apk del --no-cache \
@@ -29,7 +28,6 @@ RUN set -x && \
       py3-pip \
       && \
     rm -rf /tmp/*
-
 COPY striparr.py /striparr.py
 COPY manually_process.py /manually_process.py
 COPY etc/ /etc/
