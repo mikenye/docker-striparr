@@ -8,11 +8,11 @@ RUN set -x && \
       gnupg \
       py3-gunicorn \
       py3-pip \
+      py3-requests \
       python3 \
       redis \
       && \
     ln -s /usr/bin/python3 /usr/bin/python && \
-    #ln -s /usr/bin/pip3 /usr/bin/pip && \
     pip install --upgrade \
       pip \
       && \
