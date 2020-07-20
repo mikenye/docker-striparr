@@ -177,3 +177,9 @@ docker-host$ docker logs striparr | tail -5
 [worker] [2019-10-15 03:25:26,277: INFO/ForkPoolWorker-1] striparr.worker[2d5f7af2-ef03-11e9-81b4-2a2ae2dbcce4]: Overwriting: "/path/to/movie/file.mkv" with clean file: "/path/to/movie/file.striparr.mkv"
 [worker] [2019-10-15 03:25:29,379: INFO/ForkPoolWorker-1] striparr.worker[2d5f7af2-ef03-11e9-81b4-2a2ae2dbcce4]: File is now clean: "/path/to/movie/file.mkv"!
 ```
+
+## Getting Help
+
+Please feel free to [open an issue on the project's GitHub](https://github.com/mikenye/docker-striparr/issues).
+
+I also have a [Discord channel](https://discord.gg/PrkZPgd), feel free to [join](https://discord.gg/PrkZPgd) and converse.
