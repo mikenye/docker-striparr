@@ -20,9 +20,9 @@ from celery.utils.log import get_task_logger
 # Set up Flask App & Celery config
 app = Flask(__name__)
 app.logger.setLevel(logging.DEBUG)
-app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
-app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
-app.config['CELERYD_LOG_FORMAT'] = '[%(asctime)s] [%(levelname)s] %(message)s'
+app.config['CELERY_broker_url'] = 'redis://localhost:6379/0'
+app.config['result_backend'] = 'redis://localhost:6379/0'
+app.config['worker_log_format'] = '[%(asctime)s] [%(levelname)s] %(message)s'
 
 
 # Set up Flask app logging
@@ -48,7 +48,7 @@ app_logger = App_Logger()
 
 
 # Set up Celery
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery = Celery(app.name, broker=app.config['CELERY_broker_url'])
 celery.conf.update(app.config)
 # Disable Celery logging twice
 celery_logger = get_task_logger(__name__)

@@ -6,10 +6,10 @@ set -eo pipefail
 cd / || exit 1
 
 s6-setuidgid striparr /usr/bin/celery \
-  worker \
+  --no-color \
   -A \
   striparr.celery \
-  --no-color \
-  --loglevel=warning \
+  worker \
+  --loglevel=WARNING \
   --concurrency 1 \
   2>&1 | awk '{print "[worker] " $0}'
