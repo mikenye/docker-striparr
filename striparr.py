@@ -101,7 +101,13 @@ def worker(filetostrip):
         if found_banned_metadata_keys:
 
             filetostrip_name, filetostrip_ext = filetostrip.rsplit('.', 1)
-            stripped_filepath = filetostrip_name + ".striparr." + filetostrip_ext
+
+            # Use temp file /tmp/whatever.ext
+            stripped_filepath = os.path.join(
+                os.path.abspath(os.sep),
+                'tmp',
+                os.path.basename(filetostrip_name + ".striparr." + filetostrip_ext)
+            )
 
             celery_logger.info('Creating clean version of: "%s" in file "%s"' % (filetostrip, stripped_filepath))
 
