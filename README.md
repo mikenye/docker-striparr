@@ -110,6 +110,7 @@ In both applications, the process to do this is as follows:
     * For Sonarr v3, ensure "On Upgrade" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
     * For Radarr, ensure "On Download" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
     * Set "URL" to `http://striparr:40000` (change this URL to suit your environment if required)
+    * If you have a "Method" drop-down, select `POST`
     * Hit "Test". In the container log, it will log that it has received a test webhook (see below for example). Sonarr/Radar should show the test was successful. Then hit "Save".
 
 The container logs showing that Striparr has received the test webooks will look as follows:
