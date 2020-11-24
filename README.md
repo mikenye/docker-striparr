@@ -148,7 +148,7 @@ It is recommended that you set up log rotation for your container logs, which is
 
 If you have existing files that you wish to process, you can use the `manually_process.py` script included within the container. When running this script, the syntax is:
 
-```shell
+```text
 docker exec -it striparr /manually_process.py /path/to/media/file
 ```
 

@@ -5,11 +5,12 @@ set -eo pipefail
 
 cd / || exit 1
 
-s6-setuidgid striparr /usr/bin/celery \
+s6-setuidgid striparr celery \
   --no-color \
   -A \
   striparr.celery \
   worker \
-  --loglevel=WARNING \
+  --loglevel=INFO \
   --concurrency 1 \
-  2>&1 | awk '{print "[worker] " $0}'
+  --without-mingle \
+  2>&1 | awk -W Interactive '{print "[worker] " $0}'
