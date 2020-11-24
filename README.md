@@ -8,8 +8,8 @@ This prevents, for example, a movie file being named such as `Title.year.quality
 
 The metadata fields that Striparr will remove are:
 
-* `title` field on the file
-* `comment` field on the file
+* `title` field on the file.
+* `comment` field on the file.
 
 The streams within the media file are not touched.
 
@@ -25,11 +25,11 @@ Having said that, if you have a problem with Striparr, I want to know about it. 
 
 ## How it works
 
-1. Striparr is notified via webhook from Sonarr/Radarr that a new file has been imported to your media library
-1. Striparr launches `ffmpeg` to perform a scan of the file, to identify metadata tags
+1. Striparr is notified via webhook from Sonarr/Radarr that a new file has been imported to your media library.
+1. Striparr launches `ffmpeg` to perform a scan of the file, to identify metadata tags.
 1. If the file contains no annoyance metadata fields, Striparr does nothing further. If any of the annoyance metadata fields (listed above) are found:
     1. Striparr performs an `ffmpeg` stream copy for all audio, video and subtitle streams to a new file (`Original_Filename.striparr.Original_Extension`), setting the annoyance metadata fields to "" (blank).
-    1. Striparr overwrites the old file with the new file
+    1. Striparr overwrites the old file with the new file.
 
 To keep the amount of disk IO reasonable, Striparr queues all requests up (in memory) and has a single worker process them sequentially. There will only ever be one ffmpeg process running at any time.
 
@@ -90,8 +90,8 @@ mikenye/striparr
 
 *Important:*
 
-* The volume mounts to the media from Sonarr and Radarr containers have also been presented to Striparr with exactly the same paths
-* The environment variables PUID and PGID set on the Sonarr and Radarr container have also been set on Striparr with exactly the same values
+* The volume mounts to the media from Sonarr and Radarr containers have also been presented to Striparr with exactly the same paths.
+* The environment variables PUID and PGID set on the Sonarr and Radarr container have also been set on Striparr with exactly the same values.
 
 A more elegant solution would be to have a `docker-compose.yml` file containing Sonarr, Radarr, their supporting containers, and Striparr all defined within the `docker-compose` file.
 
@@ -101,16 +101,16 @@ In order for Sonarr and/or Radarr to notify Striparr when files are downloaded (
 
 In both applications, the process to do this is as follows:
 
-1. Go to "Settings" > "Connect"
-1. Press the "+" button to add a new notification
-1. In the "Add Notification" dialog that appears, scroll down and choose "Webhook"
+1. Go to "Settings" > "Connect".
+1. Press the "+" button to add a new notification.
+1. In the "Add Notification" dialog that appears, scroll down and choose "Webhook".
 1. Fill in the dialog as follows:
-    * Set "Name" to `Striparr`
-    * For Sonarr v2, ensure "On Download" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
-    * For Sonarr v3, ensure "On Upgrade" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
-    * For Radarr, ensure "On Download" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
-    * Set "URL" to `http://striparr:40000` (change this URL to suit your environment if required)
-    * If you have a "Method" drop-down, select `POST`
+    * Set "Name" to `Striparr`.
+    * For Sonarr v2, ensure "On Download" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.).
+    * For Sonarr v3, ensure "On Upgrade" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.).
+    * For Radarr, ensure "On Download" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.).
+    * Set "URL" to `http://striparr:40000` (change this URL to suit your environment if required).
+    * If you have a "Method" drop-down, select `POST`.
     * Hit "Test". In the container log, it will log that it has received a test webhook (see below for example). Sonarr/Radar should show the test was successful. Then hit "Save".
 
 The container logs showing that Striparr has received the test webooks will look as follows:
@@ -126,9 +126,9 @@ From this point forward, when Sonarr and/or Radarr download an item and import i
 
 These environment variables should be set when starting the container:
 
-* `TZ` - Your local timezone (optional, default: UTC)
-* `PUID` - for the User ID that Striparr will run as (default: 1000)
-* `PGID` - for the Group ID that Striparr will run as (default: 1000)
+* `TZ` - Your local timezone (optional, default: UTC).
+* `PUID` - for the User ID that Striparr will run as (default: 1000).
+* `PGID` - for the Group ID that Striparr will run as (default: 1000).
 
 You must make sure that `PUID` and `PGID` match what you have set Sonarr and Radarr to use.
 
