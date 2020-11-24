@@ -40,9 +40,9 @@ jobs:
     - name: Pull markdownlint/markdownlint:latest Image
       run: docker pull markdownlint/markdownlint:latest
     - name: Run markdownlint against *.md files
-      run: docker run --rm -i -v "$(pwd)":/workdir --workdir /workdir markdownlint/markdownlint:latest --rules ~MD013,~MD033,~MD005 $(find . -type f -iname '*.md' | grep -v '/.git/')
+      run: docker run --rm -i -v "$(pwd)":/workdir --workdir /workdir markdownlint/markdownlint:latest --rules ~MD013,~MD033,~MD005,~MD007 $(find . -type f -iname '*.md' | grep -v '/.git/')
 
 # Note to future self:
-# MD005 disabled due to weird behaviour / bugs:
+# MD005/MD007 disabled due to weird behaviour / bugs:
 # https://github.com/DavidAnson/markdownlint/issues/284
 # https://github.com/magento/devdocs/issues/5242
