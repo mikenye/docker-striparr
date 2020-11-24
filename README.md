@@ -28,8 +28,8 @@ Having said that, if you have a problem with Striparr, I want to know about it. 
 1. Striparr is notified via webhook from Sonarr/Radarr that a new file has been imported to your media library
 1. Striparr launches `ffmpeg` to perform a scan of the file, to identify metadata tags
 1. If the file contains no annoyance metadata fields, Striparr does nothing further. If any of the annoyance metadata fields (listed above) are found:
-    1. Striparr performs an `ffmpeg` stream copy for all audio, video and subtitle streams to a new file (`Original_Filename.striparr.Original_Extension`), setting the annoyance metadata fields to "" (blank).
-    1. Striparr overwrites the old file with the new file
+   1. Striparr performs an `ffmpeg` stream copy for all audio, video and subtitle streams to a new file (`Original_Filename.striparr.Original_Extension`), setting the annoyance metadata fields to "" (blank).
+   2. Striparr overwrites the old file with the new file
 
 To keep the amount of disk IO reasonable, Striparr queues all requests up (in memory) and has a single worker process them sequentially. There will only ever be one ffmpeg process running at any time.
 
