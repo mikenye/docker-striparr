@@ -116,8 +116,8 @@ In both applications, the process to do this is as follows:
 The container logs showing that Striparr has received the test webooks will look as follows:
 
 ```text
-[listener] [2019-10-15 03:54:04,337: INFO] [172.16.29.3] [Sonarr/3.0.3.644] Received a Sonarr style webhook test
-[listener] [2019-10-15 03:54:55,475: INFO] [172.16.29.4] [Radarr/0.2.0.1358] Received a Radarr style webhook test
+[listener] [2020-11-24 03:58:33,491: INFO] [172.16.29.3] [Sonarr/3.0.4.1021 (ubuntu 18.04)] Received a Sonarr style webhook test
+[listener] [2020-11-24 03:59:46,743: INFO] [172.16.29.4] [Radarr/3.0.0.4107 (ubuntu 20.04)] Received a Radarr style webhook test
 ```
 
 From this point forward, when Sonarr and/or Radarr download an item and import into your media library, Striparr will then strip the annoyance metadata from the item.
