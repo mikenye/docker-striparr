@@ -28,8 +28,8 @@ Having said that, if you have a problem with Striparr, I want to know about it. 
 1. Striparr is notified via webhook from Sonarr/Radarr that a new file has been imported to your media library
 2. Striparr launches `ffmpeg` to perform a scan of the file, to identify metadata tags
 3. If the file contains no annoyance metadata fields, Striparr does nothing further. If any of the annoyance metadata fields (listed above) are found:
-   1. Striparr performs an `ffmpeg` stream copy for all audio, video and subtitle streams to a new file (`Original_Filename.striparr.Original_Extension`), setting the annoyance metadata fields to "" (blank).
-   2. Striparr overwrites the old file with the new file
+    1. Striparr performs an `ffmpeg` stream copy for all audio, video and subtitle streams to a new file (`Original_Filename.striparr.Original_Extension`), setting the annoyance metadata fields to "" (blank).
+    2. Striparr overwrites the old file with the new file
 
 To keep the amount of disk IO reasonable, Striparr queues all requests up (in memory) and has a single worker process them sequentially. There will only ever be one ffmpeg process running at any time.
 
@@ -105,13 +105,13 @@ In both applications, the process to do this is as follows:
 2. Press the "+" button to add a new notification
 3. In the "Add Notification" dialog that appears, scroll down and choose "Webhook"
 4. Fill in the dialog as follows:
-   * Set "Name" to `Striparr`
-   * For Sonarr v2, ensure "On Download" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
-   * For Sonarr v3, ensure "On Upgrade" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
-   * For Radarr, ensure "On Download" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
-   * Set "URL" to `http://striparr:40000` (change this URL to suit your environment if required)
-   * If you have a "Method" drop-down, select `POST`
-   * Hit "Test". In the container log, it will log that it has received a test webhook (see below for example). Sonarr/Radar should show the test was successful. Then hit "Save".
+    * Set "Name" to `Striparr`
+    * For Sonarr v2, ensure "On Download" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
+    * For Sonarr v3, ensure "On Upgrade" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
+    * For Radarr, ensure "On Download" is enabled (The others don't matter, but it is recommended to enable them all. Striparr ignores events it can't use.)
+    * Set "URL" to `http://striparr:40000` (change this URL to suit your environment if required)
+    * If you have a "Method" drop-down, select `POST`
+    * Hit "Test". In the container log, it will log that it has received a test webhook (see below for example). Sonarr/Radar should show the test was successful. Then hit "Save".
 
 The container logs showing that Striparr has received the test webooks will look as follows:
 
