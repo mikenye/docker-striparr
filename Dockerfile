@@ -16,7 +16,6 @@ RUN set -x && \
     KEPT_PACKATES+=(python3) && \
     KEPT_PACKAGES+=(python3-gunicorn) && \
     TEMP_PACKAGES+=(python3-pip) && \
-    KEPT_PACKAGES+=(python3-requests) && \
     KEPT_PACKAGES+=(python3-setuptools) && \
     KEPT_PACKAGES+=(python3-six) && \
     KEPT_PACKAGES+=(redis) && \
@@ -37,6 +36,7 @@ RUN set -x && \
       celery \
       flask \
       redis \
+      requests \
       && \
     # Deploy s6-overlay
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
