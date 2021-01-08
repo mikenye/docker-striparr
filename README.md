@@ -179,6 +179,8 @@ docker-host$ docker logs striparr | tail -5
 [worker] [2019-10-15 03:25:29,379: INFO/ForkPoolWorker-1] striparr.worker[2d5f7af2-ef03-11e9-81b4-2a2ae2dbcce4]: File is now clean: "/path/to/movie/file.mkv"!
 ```
 
+Further to this, user [@angrycuban13](https://github.com/angrycuban13) with the help of [@tronyx](https://github.com/tronyx) has written a process to "mass process" existing files for Windows users. It can be found [here](https://github.com/mikenye/docker-striparr/issues/15#issue-777675331).
+
 ## Getting Help
 
 Please feel free to [open an issue on the project's GitHub](https://github.com/mikenye/docker-striparr/issues).
