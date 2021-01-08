@@ -38,6 +38,11 @@ RUN set -x && \
       redis \
       requests \
       && \
+    # Create log dirs
+    mkdir -p /var/log/listener && \
+    mkdir -p /var/log/worker && \
+    chown nobody /var/log/listener && \
+    chown nobody /var/log/worker && \
     # Deploy s6-overlay
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
     # Clean-up
