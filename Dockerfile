@@ -6,6 +6,8 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+COPY rootfs/ /
+
 RUN set -x && \
     TEMP_PACKAGES=() && \
     KEPT_PACKAGES=() && \
@@ -60,7 +62,5 @@ RUN set -x && \
     echo "Celery $(python3 -m celery --version)" && \
     python3 -m flask --version && \
     redis-server --version
-
-COPY rootfs/ /
 
 ENTRYPOINT [ "/init" ]
