@@ -14,6 +14,20 @@ else
   echo "$TZ" > /etc/timezone
 fi
 
+groupadd \
+  --gid "${PGID}" \
+  striparr \
+  || true
+
+useradd \
+  --gid "${PGID}" \
+  --uid "${PUID}" \
+  --home-dir "/home/striparr" \
+  --no-user-group \
+  --system \
+  striparr \
+  || true
+
 # Sanity check alert
 EXITCODE=0
 if [[ -n "$ALERT_EMAIL_ENABLE" ]]; then
@@ -36,20 +50,4 @@ if [[ -n "$ALERT_EMAIL_ENABLE" ]]; then
 fi
 
 # Exit if problems
-if [[ "$EXITCODE" -ne 0 ]]; then
-  exit "$EXITCODE"
-fi
-
-groupadd \
-  --gid "${PGID}" \
-  striparr \
-  || true
-
-useradd \
-  --gid "${PGID}" \
-  --uid "${PUID}" \
-  --home-dir "/home/striparr" \
-  --no-user-group \
-  --system \
-  striparr \
-  || true
+exit "$EXITCODE"
