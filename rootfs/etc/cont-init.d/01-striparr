@@ -14,6 +14,32 @@ else
   echo "$TZ" > /etc/timezone
 fi
 
+# Sanity check alert
+EXITCODE=0
+if [[ -n "$ALERT_EMAIL_ENABLE" ]]; then
+  if [[ -z "$ALERT_EMAIL_TO" ]]; then
+    echo "ERROR: If email alerts are enabled, you must set ALERT_EMAIL_TO."
+    EXITCODE=1
+  fi
+  if [[ -z "$ALERT_EMAIL_FROM" ]]; then
+    echo "ERROR: If email alerts are enabled, you must set ALERT_EMAIL_FROM."
+    EXITCODE=1
+  fi
+  if [[ -z "$ALERT_EMAIL_SMTP_HOST" ]]; then
+    echo "ERROR: If email alerts are enabled, you must set ALERT_EMAIL_SMTP_HOST."
+    EXITCODE=1
+  fi
+  if [[ -z "$ALERT_EMAIL_SMTP_PORT" ]]; then
+    echo "ERROR: If email alerts are enabled, you must set ALERT_EMAIL_SMTP_PORT."
+    EXITCODE=1
+  fi
+fi
+
+# Exit if problems
+if [[ "$EXITCODE" -ne 0 ]]; then:
+  exit "$EXITCODE"
+fi
+
 groupadd \
   --gid "${PGID}" \
   striparr \
