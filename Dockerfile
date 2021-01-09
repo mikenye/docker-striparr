@@ -1,5 +1,9 @@
 FROM debian:stable-slim
 
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    ALERT_EMAIL_SMTP_PORT=25 \
+    ALERT_FREQUENCY=600
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -x && \
@@ -19,6 +23,9 @@ RUN set -x && \
     KEPT_PACKAGES+=(python3-setuptools) && \
     KEPT_PACKAGES+=(python3-six) && \
     KEPT_PACKAGES+=(redis) && \
+    # Install swaks for email alerting
+    KEPT_PACKAGES+=(swaks) && \
+    KEPT_PACKAGES+=(libnet-ssleay-perl) && \
     # Install packages.
     apt-get update && \
     apt-get install -y --no-install-recommends \
