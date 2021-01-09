@@ -5,7 +5,7 @@ set -eo pipefail
 
 # Do email alerting if enabled
 if [[ -n "$ALERT_EMAIL_ENABLE" ]]; then
-  bash /alerter_email.sh
+  bash /alerter_email.sh 2>&1 | awk -W Interactive '{print "[alerter] " $0}'
 fi
 
 # Other future alerts would go here, ie webhooks...
