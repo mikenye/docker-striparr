@@ -24,7 +24,7 @@ jobs:
       REPO: mikenye
       IMAGE: striparr
       PUSH: true
-
+    
     steps:
 
       # Check out our code
@@ -76,6 +76,30 @@ jobs:
           push: ${{ env.PUSH }}
           tags: ${{ env.REPO }}/${{ env.IMAGE }}:latest
 
+      # Get version from "latest"
+      -
+        name: Get latest image version
+        run: |
+          echo "VERSION_TAG=${GITHUB_SHA:1:7}" >> $GITHUB_ENV
+
+      # Show version from "latest"
+      -
+        name: Show latest image version
+        run: |
+          echo "${{ env.REPO }}/${{ env.IMAGE }}:latest contains version: ${{ env.VERSION_TAG }}"
+
+      # Build version specific
+      -
+        name: Build & Push - version specific
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          no-cache: true
+          platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm/v6,linux/arm64
+          push: ${{ env.PUSH }}
+          tags: ${{ env.REPO }}/${{ env.IMAGE }}:${{ env.VERSION_TAG }}
+
       # Patch dockerfile to remove healthcheck
       -
         name: Patch Dockerfile to remove healthcheck
@@ -92,6 +116,18 @@ jobs:
           platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm/v6,linux/arm64
           push: ${{ env.PUSH }}
           tags: ${{ env.REPO }}/${{ env.IMAGE }}:latest_nohealthcheck
+
+      # Build version specific _nohealthcheck
+      -
+        name: Build & Push - version specific nohealthcheck
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile.nohealthcheck
+          no-cache: true
+          platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm/v6,linux/arm64
+          push: ${{ env.PUSH }}
+          tags: ${{ env.REPO }}/${{ env.IMAGE }}:${{ env.VERSION_TAG }}_nohealthcheck
 
   deploy_dockerhub_single_arch:
     name: Deploy to DockerHub
@@ -175,6 +211,30 @@ jobs:
           platforms: ${{ matrix.docker-platform }}
           push: ${{ env.PUSH }}
           tags: ${{ env.REPO }}/${{ env.IMAGE }}:latest_${{ env.ARCH_TAG }}
+      
+      # Get version from "latest"
+      -
+        name: Get latest image version
+        run: |
+          echo "VERSION_TAG=${GITHUB_SHA:1:7}" >> $GITHUB_ENV
+
+      # Show version from "latest"
+      -
+        name: Show latest image version
+        run: |
+          echo "${{ env.REPO }}/${{ env.IMAGE }}:latest contains version: ${{ env.VERSION_TAG }}"
+
+      # Build version specific
+      -
+        name: Build & Push - version specific
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          no-cache: true
+          platforms: ${{ matrix.docker-platform }}
+          push: ${{ env.PUSH }}
+          tags: ${{ env.REPO }}/${{ env.IMAGE }}:${{ env.VERSION_TAG }}_${{ env.ARCH_TAG }}
 
       # Patch dockerfile to remove healthcheck
       -
@@ -192,5 +252,15 @@ jobs:
           platforms: ${{ matrix.docker-platform }}
           push: ${{ env.PUSH }}
           tags: ${{ env.REPO }}/${{ env.IMAGE }}:latest_nohealthcheck_${{ env.ARCH_TAG }}
-
       
+      # Build version specific _nohealthcheck
+      -
+        name: Build & Push - version specific nohealthcheck
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile.nohealthcheck
+          no-cache: true
+          platforms: ${{ matrix.docker-platform }}
+          push: ${{ env.PUSH }}
+          tags: ${{ env.REPO }}/${{ env.IMAGE }}:${{ env.VERSION_TAG }}_nohealthcheck_${{ env.ARCH_TAG }}
