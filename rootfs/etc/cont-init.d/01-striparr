@@ -36,7 +36,7 @@ if [[ -n "$ALERT_EMAIL_ENABLE" ]]; then
 fi
 
 # Exit if problems
-if [[ "$EXITCODE" -ne 0 ]]; then:
+if [[ "$EXITCODE" -ne 0 ]]; then
   exit "$EXITCODE"
 fi
 
