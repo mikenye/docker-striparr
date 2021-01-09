@@ -132,6 +132,19 @@ These environment variables should be set when starting the container:
 
 You must make sure that `PUID` and `PGID` match what you have set Sonarr and Radarr to use.
 
+### Email Alerting
+
+These environment variables should be set when starting the container:
+
+* `ALERT_EMAIL_ENABLE` - Set to any value to enable email alerting (optional, disabled).
+
+If `ALERT_EMAIL_ENABLE` is set, then the following values must also be set:
+
+* `ALERT_EMAIL_TO` - Set to the alert destination email address.
+* `ALERT_EMAIL_FROM` - Set to the email address that alerts should appear to come from.
+* `ALERT_EMAIL_SMTP_HOST` - Set to the SMTP server hostname/IP.
+* `ALERT_EMAIL_SMTP_PORT` - Set to the SMTP server TCP port (default: 25).
+
 ## Ports
 
 Striparr listens for webhooks on TCP port 40000.

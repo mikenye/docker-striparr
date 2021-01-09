@@ -1,5 +1,9 @@
 FROM debian:stable-slim
 
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    ALERT_EMAIL_SMTP_PORT=25 \
+    ALERT_FREQUENCY=600
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -x && \
@@ -19,6 +23,9 @@ RUN set -x && \
     KEPT_PACKAGES+=(python3-setuptools) && \
     KEPT_PACKAGES+=(python3-six) && \
     KEPT_PACKAGES+=(redis) && \
+    # Install swaks for email alerting
+    KEPT_PACKAGES+=(swaks) && \
+    KEPT_PACKAGES+=(libnet-ssleay-perl) && \
     # Install packages.
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -38,6 +45,11 @@ RUN set -x && \
       redis \
       requests \
       && \
+    # Create log dirs
+    mkdir -p /var/log/listener && \
+    mkdir -p /var/log/worker && \
+    chown nobody /var/log/listener && \
+    chown nobody /var/log/worker && \
     # Deploy s6-overlay
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
     # Clean-up
