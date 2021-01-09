@@ -1,0 +1,22 @@
+#!/usr/bin/with-contenv bash
+#shellcheck shell=bash
+
+set -eo pipefail
+
+# Do email alerting if enabled
+if [[ -n "$ALERT_EMAIL_ENABLE" ]]; then
+  bash /alerter_email.sh
+fi
+
+# Other future alerts would go here, ie webhooks...
+
+# Rotate logs if alerting is enabled
+if [[ -n "$ALERT_EMAIL_ENABLE" ]]; then
+  pkill --signal SIGALRM s6-log
+else
+  # If logging isn't enabled, sleep forever
+  sleep 86400
+fi
+
+# Sleep for ALERT_FREQUENCY seconds
+sleep "$ALERT_FREQUENCY"
