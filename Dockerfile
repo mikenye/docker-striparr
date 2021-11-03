@@ -36,7 +36,6 @@ RUN set -x && \
         && \
     # Provide symlinks for python
     ln -s /usr/bin/python3 /usr/bin/python && \
-    ln -s /usr/bin/pip3 /usr/bin/pip && \
     # Install python packages
     python3 -m pip install --no-cache-dir --upgrade \
       pip \
