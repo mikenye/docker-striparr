@@ -90,12 +90,17 @@ def worker(filetostrip):
 
         # check output for metadata we want to remove
         found_banned_metadata_keys = False
-        for metadata_line in metadata_scan.stdout.decode().split('\n'):
-            m = re_metadata_data.match(metadata_line)
-            if m:
-                mgd = m.groupdict()
-                if mgd['key'] in banned_metadata_keys:
-                    found_banned_metadata_keys = True
+        try:
+            split_content = metadata_scan.stdout.decode().split('\n')
+        except UnicodeDecodeError:
+            found_banned_metadata_keys = True
+        else:
+            for metadata_line in split_content:
+                m = re_metadata_data.match(metadata_line)
+                if m:
+                    mgd = m.groupdict()
+                    if mgd['key'] in banned_metadata_keys:
+                        found_banned_metadata_keys = True
 
         # if we found metadata we want to remove
         if found_banned_metadata_keys:
