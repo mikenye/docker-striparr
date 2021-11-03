@@ -93,6 +93,7 @@ def worker(filetostrip):
         try:
             split_content = metadata_scan.stdout.decode().split('\n')
         except UnicodeDecodeError:
+            celery_logger.warning('Could not decode unicode')
             found_banned_metadata_keys = True
         else:
             for metadata_line in split_content:
