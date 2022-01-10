@@ -1,7 +1,6 @@
 name: Deploy to Docker Hub
 
 on:
-
   # Build and deploy the image on pushes to master branch
   push:
     branches: 
