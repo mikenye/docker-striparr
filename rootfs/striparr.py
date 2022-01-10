@@ -140,7 +140,7 @@ def worker(filetostrip):
 
                 # add remaining command line bits
                 ffmpeg_strip_command += [
-                     "-map 0",              # keep stream mappings for multiple audio & subtitles
+                     "-map", "0",           # keep stream mappings for multiple audio & subtitles
                      "-c:v", "copy",        # stream copy all video streams
                      "-c:a", "copy",        # stream copy all audio streams
                      "-c:s", "copy",        # stream copy all subtitle streams
