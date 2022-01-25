@@ -161,7 +161,19 @@ def worker(filetostrip):
                 else:
                     # if output good, then overwrite original file
                     celery_logger.info('Overwriting: "%s" with clean file: "%s"' % (filetostrip, stripped_filepath))
-                    shutil.move(stripped_filepath, filetostrip)
+
+                    # attempt shutil move
+                    # if that fails, try copy/delete
+                    # see: https://alexwlchan.net/2019/03/atomic-cross-filesystem-moves-in-python/
+                    try:
+                        shutil.move(stripped_filepath, filetostrip)
+                    except OSError as err:
+                        if err.errno == errno.EXDEV:
+                            shutil.copyfile(stripped_filepath, filetostrip)
+                            os.unlink(stripped_filepath)
+                        else:
+                            raise
+                    
                     celery_logger.info('File is now clean: "%s"!' % (filetostrip))
 
         else:
