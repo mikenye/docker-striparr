@@ -28,6 +28,7 @@ jobs:
       ghcr_repo: ${{ github.repository }}
       dockerhub_profile: mikenye
       dockerhub_repo: striparr
+      get_version_method: git_commit_hash_short
     secrets:
       ghcr_token: ${{ secrets.GITHUB_TOKEN }}
       dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
