@@ -2,14 +2,13 @@ name: Linting
 
 on:
   pull_request:
-    branches: 
+    branches:
       - main
       - master
 
 jobs:
 
   yamllint:
-    name: Run yamllint against YAML files
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,11 +27,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Pull koalaman/shellcheck:stable Image
-      run: docker pull koalaman/shellcheck:stable
-    - name: Run Shellcheck against shell scripts
-      run: docker run --rm -i -v "$PWD:/mnt" koalaman/shellcheck:stable $(find . -type f -exec grep -m1 -l -E '^#!.*sh.*' {} \; | grep -v '/.git/')
+      - uses: actions/checkout@v2
+      - name: Pull koalaman/shellcheck:stable Image
+        run: docker pull koalaman/shellcheck:stable
+      - name: Run Shellcheck against shell scripts
+        run: docker run --rm -i -v "$PWD:/mnt" koalaman/shellcheck:stable $(find . -type f -exec grep -m1 -l -E '^#!.*sh.*' {} \; | grep -v '/.git/')
 #        docker run --rm -i -v "$PWD:/mnt" koalaman/shellcheck:stable $(find . -type f -exec grep -m1 -l -E '^#!.*execline.*' {} \; | grep -v '/.git/')
 
   hadolint:
@@ -40,22 +39,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Pull hadolint/hadolint:latest Image
-      run: docker pull hadolint/hadolint:latest
-    - name: Run hadolint against Dockerfiles
-      run: docker run --rm -i -v "$PWD":/workdir --workdir /workdir --entrypoint hadolint hadolint/hadolint --ignore DL3008 --ignore SC2068 --ignore DL3007 --ignore SC1091 --ignore DL3013 $(find . -type f -iname "Dockerfile*")
+      - uses: actions/checkout@v2
+      - name: Pull hadolint/hadolint:latest Image
+        run: docker pull hadolint/hadolint:latest
+      - name: Run hadolint against Dockerfiles
+        run: docker run --rm -i -v "$PWD":/workdir --workdir /workdir --entrypoint hadolint hadolint/hadolint --ignore DL3008 --ignore SC2068 --ignore DL3007 --ignore SC1091 --ignore DL3013 $(find . -type f -iname "Dockerfile*")
 
   markdownlint:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Pull markdownlint/markdownlint:latest Image
-      run: docker pull markdownlint/markdownlint:latest
-    - name: Run markdownlint against *.md files
-      run: docker run --rm -i -v "$(pwd)":/workdir --workdir /workdir markdownlint/markdownlint:latest --rules ~MD013,~MD033,~MD026,~MD007 $(find . -type f -iname '*.md' | grep -v '/.git/')
+      - uses: actions/checkout@v2
+      - name: Pull markdownlint/markdownlint:latest Image
+        run: docker pull markdownlint/markdownlint:latest
+      - name: Run markdownlint against *.md files
+        run: docker run --rm -i -v "$(pwd)":/workdir --workdir /workdir markdownlint/markdownlint:latest --rules ~MD013,~MD033,~MD026,~MD007 $(find . -type f -iname '*.md' | grep -v '/.git/')
 
   flake8:
 
@@ -65,22 +64,22 @@ jobs:
         python-version: [3.8]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-gunicorn python3-pip python3-setuptools python3-six
-        python3 -m pip install --no-cache-dir --upgrade pip
-        python3 -m pip install --no-cache-dir celery flask redis requests
-        python3 -m pip install flake8 pytest wheel
-    - name: Lint with flake8
-      run: |
-        cd "$GITHUB_WORKSPACE/rootfs"
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 *.py --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 *.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-gunicorn python3-pip python3-setuptools python3-six
+          python3 -m pip install --no-cache-dir --upgrade pip
+          python3 -m pip install --no-cache-dir celery flask redis requests
+          python3 -m pip install flake8 pytest wheel
+      - name: Lint with flake8
+        run: |
+          cd "$GITHUB_WORKSPACE/rootfs"
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 *.py --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 *.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
