@@ -85,7 +85,7 @@ docker run \
 -e PGID=1000 \
 -v /path/to/tv:/path/to/tv \
 -v /path/to/movies:/path/to/movies \
-mikenye/striparr
+ghcr.io/mikenye/docker-striparr:latest
 ```
 
 *Important:*
