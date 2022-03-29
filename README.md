@@ -198,4 +198,4 @@ Further to this, user [@angrycuban13](https://github.com/angrycuban13) with the 
 
 Please feel free to [open an issue on the project's GitHub](https://github.com/mikenye/docker-striparr/issues).
 
-I also have a [Discord channel](https://discord.gg/PrkZPgd), feel free to [join](https://discord.gg/PrkZPgd) and converse.
+I also have a [Discord channel](https://discord.gg/j4D8w5wztn), feel free to [join](https://discord.gg/j4D8w5wztn) and converse.
