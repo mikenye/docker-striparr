@@ -1,4 +1,4 @@
-FROM debian:bullseye-20220316-slim
+FROM debian:bullseye-20220328-slim
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     ALERT_EMAIL_SMTP_PORT=25 \
